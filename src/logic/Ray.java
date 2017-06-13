@@ -26,4 +26,17 @@ public class Ray {
 		return new Ray(dir, origin, 0);
 	}
 	
+	public Ray reflectNew(Vector3d normal, Vector3d origin) {
+		Vector3d norm = normal.normalize();
+		
+		double underLine = norm.magnitude() * norm.magnitude();
+		
+		double aboveLine = direction.multiply(2).dotProduct(norm);
+		
+		Vector3d intermediate = norm.multiply(aboveLine / underLine);
+		
+		return new Ray(direction.subtract(intermediate), origin, 0);
+		
+	}
+	
 }

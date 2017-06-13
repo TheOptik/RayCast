@@ -25,9 +25,9 @@ public class Launcher extends Application {
 		
 		primaryStage.setScene(scene);
 		primaryStage.show();
-		Sphere s = new Sphere(new Vector3d(0.3, 2, 40), 2, Color.BLACK);
+		Sphere s = new Sphere(new Vector3d(3, 0, 12), 2, Color.WHITE);
 		World.addObject(s);
-		World.addObject(new Sphere(new Vector3d(0, 0, 43), 2, Color.RED));
+		World.addObject(new Sphere(new Vector3d(-3, 0, 12), 2, Color.RED));
 		
 		AnimationTimer timer = new AnimationTimer() {
 			PixelWriter writer = canvas.getGraphicsContext2D().getPixelWriter();
