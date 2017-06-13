@@ -19,6 +19,10 @@ public abstract class SceneObject implements Intersectable, Comparable<SceneObje
 		return position;
 	}
 	
+	public void setPosition(Vector3d position) {
+		this.position = position;
+	}
+	
 	@Override
 	public int compareTo(SceneObject other) {
 		return -Double.compare(this.position.z, other.position.z);

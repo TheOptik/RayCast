@@ -10,10 +10,12 @@ import scene.SceneObject;
 
 public class World {
 	
-	public static final int HEIGHT = 500;
-	public static final int WIDTH = 500;
+	public static final Color BACKGROUND_COLOR = new Color(0.8, 0.8, 0.8, 1);
 	
-	protected static final int NEAR_CLIP_DISTANCE = 500;
+	public static final int HEIGHT = 1000;
+	public static final int WIDTH = 1900;
+	
+	protected static final int NEAR_CLIP_DISTANCE = 1000;
 	
 	private static final List<SceneObject> SCENE_OBJECTS = new LinkedList<>();
 	
@@ -23,7 +25,7 @@ public class World {
 	}
 	
 	public static Color doRayCast(int x, int y) {
-		Color color = Color.GREEN;
+		Color color = BACKGROUND_COLOR;
 		double nearestDistance = Double.POSITIVE_INFINITY;
 		Vector3d direction = new Vector3d(x - WIDTH / 2, y - HEIGHT / 2, NEAR_CLIP_DISTANCE);
 		
@@ -45,7 +47,7 @@ public class World {
 	}
 	
 	public static Color doRayCast(Ray ray, SceneObject origin) {
-		Color color = Color.GREEN;
+		Color color = Color.TRANSPARENT;
 		double nearestDistance = Double.POSITIVE_INFINITY;
 		IntersectionResult result;
 		
@@ -53,19 +55,13 @@ public class World {
 		SceneObject object;
 		for (int i = 0; i < length; i++) {
 			object = SCENE_OBJECTS.get(i);
-			if (!(object == origin)) {
+			if (object != origin) {
 				result = object.intersect(ray);
 				Color temp = result.color;
 				if (temp != null && nearestDistance > result.distance) {
 					color = temp;
 					nearestDistance = result.distance;
 				}
-//				if (result.color != null && color.getRed() == 1) {
-//					System.out.println(object.getPosition());
-//					System.out.println(origin.getPosition());
-//					System.out.println(nearestDistance);
-//					System.out.println(color);
-//				}
 			}
 		}
 		return color;

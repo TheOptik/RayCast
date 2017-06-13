@@ -1,7 +1,6 @@
 package gui;
 
 import data.Vector3d;
-import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
@@ -20,30 +19,27 @@ public class Launcher extends Application {
 	
 	@Override
 	public void start(Stage primaryStage) throws Exception {
-		Canvas canvas = new Canvas(500, 500);
+		Canvas canvas = new Canvas(World.WIDTH, World.HEIGHT);
 		Scene scene = new Scene(new VBox(canvas));
 		
 		primaryStage.setScene(scene);
 		primaryStage.show();
-		Sphere s = new Sphere(new Vector3d(3, 0, 12), 2, Color.WHITE);
-		World.addObject(s);
-		World.addObject(new Sphere(new Vector3d(-3, 0, 12), 2, Color.RED));
+		World.addObject(new Sphere(new Vector3d(3.7, 0, 10), 2, Color.BLACK));
+		World.addObject(new Sphere(new Vector3d(-3.7, 0, 10), 2, Color.RED));
+		World.addObject(new Sphere(new Vector3d(0, 2.6, 10), 2, Color.WHITE));
+		World.addObject(new Sphere(new Vector3d(0, -2.6, 10), 2, Color.BLUE));
 		
-		AnimationTimer timer = new AnimationTimer() {
-			PixelWriter writer = canvas.getGraphicsContext2D().getPixelWriter();
-			
-			@Override
-			public void handle(long now) {
+		World.addObject(new Sphere(new Vector3d(0, 0, 20), 5, Color.GRAY));
+		
+		PixelWriter writer = canvas.getGraphicsContext2D().getPixelWriter();
+		
+		for (int x = 0; x < World.WIDTH; x++) {
+			for (int y = 0; y < World.WIDTH; y++) {
 				
-				for (int x = 0; x < World.WIDTH; x++) {
-					for (int y = 0; y < World.HEIGHT; y++) {
-						writer.setColor(x, y, World.doRayCast(x, y));
-					}
-				}
-				s.move(new Vector3d(0, 0, 0));
+				writer.setColor(x, y, World.doRayCast(x, y));
+				
 			}
-		};
-		timer.start();
+		}
 		
 	}
 	

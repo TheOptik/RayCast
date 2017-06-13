@@ -33,13 +33,13 @@ public class Sphere extends SceneObject {
 														// always
 														// be the actual
 														// distance
-			
-			double distance = Math.min(d1, d2);
+			double distance = Math.min(Math.max(d1, 0), Math.max(d2, 0));
 			
 			if (ray.intensity > 0) {
 				
 				Vector3d colisionPoint = ray.origin.add(ray.direction.multiply(distance));
 				Vector3d normal = colisionPoint.subtract(position);
+				
 				Color other = World.doRayCast(ray.reflect(normal, colisionPoint), this);
 				Color col = mixColors(this.color, other);
 				return new IntersectionResult(col, distance);
@@ -51,8 +51,14 @@ public class Sphere extends SceneObject {
 	}
 	
 	private static Color mixColors(Color color, Color other) {
-		return new Color((2 * color.getRed() + other.getRed()) / 3, (2 * color.getGreen() + other.getGreen()) / 3,
-				(2 * color.getBlue() + other.getBlue()) / 3, 1);
+		
+		double alphaSum = color.getOpacity() + other.getOpacity();
+		double colorWeight = color.getOpacity() / alphaSum;
+		double otherWeight = other.getOpacity() / alphaSum;
+		
+		return new Color(color.getRed() * colorWeight + other.getRed() * otherWeight,
+				color.getGreen() * colorWeight + other.getGreen() * otherWeight,
+				color.getBlue() * colorWeight + other.getBlue() * otherWeight, 1);
 	}
 	
 	public void move(Vector3d vector) {

@@ -23,7 +23,7 @@ public class Ray {
 	public Ray reflect(Vector3d normal, Vector3d origin) {
 		Vector3d norm = normal.normalize();
 		Vector3d dir = direction.subtract(norm.multiply(direction.dotProduct(norm)).multiply(2));
-		return new Ray(dir, origin, 0);
+		return new Ray(dir, origin, intensity - 0.1);
 	}
 	
 	public Ray reflectNew(Vector3d normal, Vector3d origin) {
